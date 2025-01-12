@@ -1,6 +1,12 @@
+.header{
+    margin: 165px 0 30px;
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+}
+
 .appWrapper{
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  margin-top: 230px;
+    display: flex;
+    gap: 45px;
+    color: white;
 }

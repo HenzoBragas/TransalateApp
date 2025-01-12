@@ -1,137 +1,106 @@
-.containerWrapper{
-    display: flex;
-    position: relative;
-    right: 340px;
-    width: 580px;
-    height: 300px;
-    background-color: rgba(56, 65, 82, 0.69);
-    border: 1px solid rgba(205, 213, 224, 0.274);
-    border-radius: 20px;
-
-}
-.translated{
-    position: relative;
-}
-
-.containerApp{
-    text-align: center;
-    opacity: 1.2;
+.containerInputArea{
+    width: 500px;
+    height: 295px;
+    border-radius: 15px;
+    background-color: hsla(237, 20%, 19%, 0.692);
+    border: 1px solid hsl(222, 5%, 63%);
 }
 
 .menu-languages ul{
     display: flex;
-    gap: 15px;
-    margin: 20px 40px;
+    margin: 15px 40px;
+    gap: 20px;
 }
 
-.menu-languages ul{
+.menu-languages li{
     list-style: none;
-    margin-bottom: 20px;
-}
-.menu-languages a{
-    font-size: 15px;
-    font-weight: 600;
-}
-.menu-languages a.active { 
-    background-color: #cdd5e046;
-    color: white; 
-    padding: 5px 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: white;
-} 
-
-.hrApp{
-    width: 530px;
-    margin: 20px;
-    border: 1px solid rgba(205, 213, 224, 0.274);
-}
-
-.translated{
-    position: relative;
-    margin-left: 50px;
-}
-
-.areaTranslate form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.TextContainer{
-    background-color: rgba(56, 65, 82, 0);
-    border: none;
-    margin:10px 25px;
-    font-size: 18px;
-}
-
-.TextContainer::placeholder{
-    color: white;
-    border: none;
-}
-
-.TextContainer:focus{
-    outline: none;
-}
-
-.btn-form{
-    margin-top: 110px;
-    margin-right: 820px;
-    margin-left: 10px;
-    display: flex;
-}
-
-.btn-app{
-    display: flex;
-    background-color: rgba(56, 65, 82, 0.068);
-    border: 2px solid rgb(72, 72, 75);
-    padding: 5px;
-    border-radius: 10px;
-    margin-left: 10px;
-}
-
-.btn-submit{
-    background-color: #3662E3;
-    border-radius: 10px;
-    border: 1px solid #3662E3;
-    width: 135px;
-    height: 40px;
-    text-align: center;
-    margin: -50px 400px;
+    color: #9B9EA5;
+    font-weight: 400;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out;
 }
 
-.btn-submit:hover{
-    transform: translateY(-10px);
+.menu-languages li.active{
+    border-radius: 10px;
+    padding: 2px 5px;
+    background-color: #4D5562;
+    color: white;
 }
 
-.btn-submit span{
-    padding: 20px 10px 5px;
-    position: relative;
-    bottom: 5px;
-    font-weight: 600;
+.hrBar{
+    text-align: center;
+    width: 450px;
+    margin: 0 0 25px 20px;
+    border: 1px solid hsla(222, 5%, 63%, 0.514);
 }
 
-.btn-app:active{
-    background-color: #cdd5e046;
-}
-
-.appTranslated{
-    position: relative;
-    top: 30px;
-}
-
-.areaTranslate p{
-    text-align: start;
-    margin-left: 30px;
-    margin-right: 30px;
+.inputText{
+    overflow: hidden;
+    width: 450px;
+    height: 130px;
+    overflow: auto;
+    background: none;
+    border: none;
+    resize: none; 
+    outline: none;
+    color: white;
     font-size: 15px;
 }
 
-.appForm{
-    position: absolute;
+.btn-container{
     display: flex;
-    margin-bottoM: 1000px;
+    justify-content: space-between;
+    margin: 10px 25px;
 }
 
+
+.btn-function button{
+    padding: 8px;
+    border-radius: 15px;
+    border: 2px solid hsla(222, 5%, 63%, 0.514);
+    background-color: transparent;
+    margin-top: 15px;
+    fill: hsla(222, 5%, 63%, 0.514);
+    opacity: 20;
+}
+
+.SoundArea img, .copyArea img {
+    width: 24px; 
+    height: 24px;
+  }
+  .SoundArea:hover img {
+    filter: invert(50%); 
+  }
+
+  .copyArea:hover img {
+    filter: sepia(1); 
+  }
+
+.SoundArea{
+    margin-right: 10px;
+}
+
+.numberLetter{
+    font-size: 12px;
+    text-align: end;
+}
+
+.btn-translate{
+    display: flex;
+    text-align: center;
+    margin-top: 5px;
+    padding: 5px 25px;
+    background-color: #0734ffb4;
+    border: 1px solid hsla(222, 5%, 63%, 0.514);
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.btn-translate span{
+    padding-top: 4px;
+}
+
+.btn-result{
+    margin-top: 10px;
+    margin-right: 350px;
+}

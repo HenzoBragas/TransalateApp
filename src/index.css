@@ -5,14 +5,14 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'DM Sans', sans-serif;
-  color: #fff;
 }
 
 body{
-  background-image: url("./assets/hero_img.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-color: #040612;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.774)15%, #5d91cc 45%);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
 }
 
 a{

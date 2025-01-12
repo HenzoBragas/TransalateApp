@@ -1,123 +1,128 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/TranslateArea.css';
-import Audio from "../assets/sound.svg";
-import Copy from "../assets/Copy.svg";
-import Expand from "../assets/Expand_down.svg";
-import Sort from "../assets/Sort.svg";
+import Sound from '../assets/Sound.svg';
+import Copy from '../assets/Copy.svg';
+import Sort from '../assets/Sort.svg';
 
 function TranslateArea() {
-    const [sourceText, setSourceText] = useState('');
-    const [translatedText, setTranslatedText] = useState('');
-    const [sourceLang, setSourceLang] = useState('en'); // Inglês como padrão
-    const [targetLang, setTargetLang] = useState('pt'); // Português como padrão
-    const [isLanguageChanged, setIsLanguageChanged] = useState(false); // Controle de mudança de idioma
+    const [inputText, setInputText] = useState("");
+    const [translatedText, setTranslatedText] = useState("");
+    const [activeIndex, setActiveIndex] = useState(null);
+    const [activeIndexResult, setActiveIndexResult] = useState(null);
+    const [fromLanguage, setFromLanguage] = useState("pt"); // Idioma de origem
+    const [toLanguage, setToLanguage] = useState("en"); // Idioma de destino
 
-    const fetchTranslation = async (text) => {
-        if (!text) {
-            setTranslatedText('');
-            return;
-        }
-    
-        // Ajuste para usar códigos de idioma padrão
-        const langpair = `${sourceLang}|${targetLang}`;
-        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langpair}`;
-    
+    const languages = ["Detect Language", "English", "Portuguese", "Spanish"];
+
+    const handleItemClick = (index) => {
+        if (activeIndexResult === index) return;
+        setActiveIndex(index);
+        setFromLanguage(languages[index].toLowerCase().slice(0, 2));
+    };
+
+    const handleItemClickResult = (index) => {
+        if (activeIndex === index) return;
+        setActiveIndexResult(index);
+        setToLanguage(languages[index].toLowerCase().slice(0, 2));
+    };
+
+    const handleInputText = (e) => {
+        setInputText(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetchTranslatedText(inputText, fromLanguage, toLanguage);
+    };
+
+    // Função para traduzir o texto
+    const fetchTranslatedText = async (text, from, to) => {
+        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
+
         try {
             const response = await fetch(url);
-            const data = await response.json();
-            if (data.responseData) {
+            const data = await response.json(); // Corrigido o erro aqui
+
+            if (data.responseStatus === 200) {
                 setTranslatedText(data.responseData.translatedText);
             } else {
-                setTranslatedText('Erro ao traduzir.');
+                setTranslatedText("Erro ao traduzir");
             }
         } catch (error) {
-            console.error('Erro:', error);
-            setTranslatedText('Erro ao traduzir.');
+            setTranslatedText("Erro na conexão");
         }
     };
-
-    const handleSourceChange = (e) => {
-        const value = e.target.value === 'auto' ? 'en' : e.target.value;
-        if (value === targetLang) {
-            alert('Por favor selecione dois idiomas diferentes');
-            return;
-        }
-        setSourceLang(value);
-        setIsLanguageChanged(true); // Marcar que o idioma foi alterado
-    };
-
-    const handleTargetChange = (e) => {
-        const value = e.target.value;
-        if (value === sourceLang) {
-            alert('Por favor selecione dois idiomas diferentes');
-            return;
-        }
-        setTargetLang(value);
-        setIsLanguageChanged(true); // Marcar que o idioma foi alterado
-    };
-
-    const handleChange = (e) => {
-        setSourceText(e.target.value);
-        if (!isLanguageChanged) {
-            fetchTranslation(e.target.value);
-        }
-    };
-
-    // Atualiza a tradução quando os idiomas são alterados
-    useEffect(() => {
-        if (isLanguageChanged && sourceText) {
-            fetchTranslation(sourceText);
-            setIsLanguageChanged(false); // Resetar após a tradução
-        }
-    }, [sourceLang, targetLang, sourceText, isLanguageChanged]);
 
     return (
-        <div className="containerWrapper">
-            <div className="containerApp">
+        <div className="appWrapper">
+            <div className="containerInputArea">
                 <div className="menu-languages">
                     <ul>
-                        <li><a href="#" className={sourceLang === 'auto' ? 'active' : ''} onClick={() => handleSourceChange({ target: { value: 'auto' } })}>Detect Language</a></li>
-                        <li><a href="#" className={sourceLang === 'en' ? 'active' : ''} onClick={() => handleSourceChange({ target: { value: 'en' } })}>English</a></li>
-                        <li><a href="#" className={sourceLang === 'pt' ? 'active' : ''} onClick={() => handleSourceChange({ target: { value: 'pt' } })}>Portuguese</a></li>
-                        <li><a href="#" className={sourceLang === 'es' ? 'active' : ''} onClick={() => handleSourceChange({ target: { value: 'es' } })}>Spanish</a></li>
+                        {languages.map((item, index) => (
+                            <li
+                                key={`list1-${index}`}
+                                onClick={() => handleItemClick(index)}
+                                className={activeIndex === index ? 'active' : ''}
+                                style={{
+                                    pointerEvents: activeIndexResult === index ? 'none' : 'auto',
+                                    opacity: activeIndexResult === index ? 0.5 : 1,
+                                }}
+                            >
+                                {item}
+                            </li>
+                        ))}
                     </ul>
                 </div>
-                <hr className='hrApp' />
-                <div className="areaTranslate">
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        <input
-                            type="text"
-                            className='TextContainer'
-                            placeholder="Digite o texto aqui..."
-                            value={sourceText}
-                            onChange={handleChange}
-                        />
-                        <div className="btn-form">
-                            <button className='btn-app audio '><img src={Audio} alt="" /></button>
-                            <button className='btn-app copy '><img src={Copy} alt="" /></button>
+                <hr className='hrBar' />
+                <div className="areaTextInput">
+                    <form onSubmit={handleSubmit}>
+                        <textarea
+                            name="inputText"
+                            className="inputText"
+                            placeholder='Hello, how are you?'
+                            maxLength={800}
+                            onChange={handleInputText}
+                            value={inputText || ''}
+                        ></textarea>
+                        <div className="btn-container">
+                            <div className="btn-function">
+                                <button className='SoundArea '><img src={Sound} alt="Sound" /></button>
+                                <button className="copyArea "><img src={Copy} alt="Copy" /></button>
+                            </div>
+                            <div className="numberLetter">
+                                <p>{inputText.length}/800</p>
+                                <button type="submit" className="btn-translate"><img src={Sort} alt="Sort" /><span>Translate</span></button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div className="containerWrapper translated">
-                <div className="containerApp">
-                    <div className="menu-languages">
-                        <ul>
-                            <li><a href="#" className={targetLang === 'it' ? 'active' : ''} onClick={() => handleTargetChange({ target: { value: 'it' } })}>Italian</a></li>
-                            <li><a href="#" className={targetLang === 'es' ? 'active' : ''} onClick={() => handleTargetChange({ target: { value: 'es' } })}>Spanish</a></li>
-                            <li><a href="#" className={targetLang === 'en' ? 'active' : ''} onClick={() => handleTargetChange({ target: { value: 'en' } })}>English</a></li>
-                            <li><a href="#" className={targetLang === 'pt' ? 'active' : ''} onClick={() => handleTargetChange({ target: { value: 'pt' } })}>Portuguese</a></li>
-                        </ul>
-                    </div>
-                    <hr className='hrApp Hrtranslated' />
-                    <div className="areaTranslate">
-                        <form action="">
-                            <p>{translatedText}</p>
-                            <div className="btn-form appForm">
-                                <button className='btn-app audio appTranslated'><img src={Audio} alt="" /></button>
-                                <button className='btn-app copy appTranslated'><img src={Copy} alt="" /></button>
-                            </div>
-                        </form>
+            <div className="containerInputArea containerResultArea">
+                <div className="menu-languages">
+                    <ul>
+                        {languages.map((item, index) => (
+                            <li
+                                key={`list2-${index}`}
+                                onClick={() => handleItemClickResult(index)}
+                                className={activeIndexResult === index ? 'active' : ''}
+                                style={{
+                                    pointerEvents: activeIndex === index ? 'none' : 'auto',
+                                    opacity: activeIndex === index ? 0.5 : 1,
+                                }}
+                            >
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <hr className='hrBar' />
+                <div className="areaTextInput">
+                    <textarea name="inputTextResult" className="inputText" value={translatedText} readOnly>
+
+                    </textarea>
+                    <div className="btn-function btn-result">
+                        <button className='SoundArea '><img src={Sound} alt="Sound" /></button>
+                        <button className="copyArea "><img src={Copy} alt="Copy" /></button>
                     </div>
                 </div>
             </div>
