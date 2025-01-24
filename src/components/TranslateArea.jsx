@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/TranslateArea.css';
-import Sound from '../assets/Sound.svg';
+import Sound from '../assets/sound.svg';
 import Copy from '../assets/Copy.svg';
 import Sort from '../assets/Sort.svg';
 
