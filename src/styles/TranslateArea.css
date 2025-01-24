@@ -22,7 +22,7 @@
 .menu-languages li.active{
     border-radius: 10px;
     padding: 2px 5px;
-    background-color: #4D5562;
+    background-color: hsl(217, 12%, 34%);
     color: white;
 }
 
